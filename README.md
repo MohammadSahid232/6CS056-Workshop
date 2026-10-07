@@ -16,14 +16,14 @@ From the project root:
 
 ```sh
 composer install
-cp .env.example .env
+test -f .env || cp .env.example .env
 php artisan key:generate
 ```
 
-Create the MySQL database (the handout calls it `WorkshopDB`):
+Create the MySQL database. This project currently uses `workshop1DB`; if you choose another name, use it consistently in both MySQL and `.env`:
 
 ```sql
-CREATE DATABASE WorkshopDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE workshop1DB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 Update the database values in `.env` to match your local MySQL installation:
@@ -32,20 +32,20 @@ Update the database values in `.env` to match your local MySQL installation:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=WorkshopDB
+DB_DATABASE=workshop1DB
 DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Use your own database username and password if they differ. Then run the migrations and start Laravel:
+Use your own database username and password if they differ. If `.env` already exists, update it rather than replacing it with `.env.example`. Then run the migrations and start Laravel on port 8001:
 
 ```sh
 php artisan config:clear
 php artisan migrate
-php artisan serve
+php artisan serve --host=0.0.0.0 --port=8001
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The root address redirects to the students list. The courses list is available at `/courses`.
+Open [http://127.0.0.1:8001](http://127.0.0.1:8001). The root address redirects to the students list; courses are available at [http://127.0.0.1:8001/courses](http://127.0.0.1:8001/courses). Port 8001 is used here because port 8000 is occupied in the current development environment. If you use another port, change the command and URL to match.
 
 For SQLite instead, set `DB_CONNECTION=sqlite` in `.env` and ensure `database/database.sqlite` exists before running `php artisan migrate`.
 
