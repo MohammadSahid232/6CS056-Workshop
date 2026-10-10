@@ -1,0 +1,18 @@
+<x-layouts.app title="Course Details">
+    <h1>Course Details</h1>
+
+    <div class="detail-card">
+        <p><strong>ID:</strong> {{ $course->id }}</p>
+        <p><strong>Name:</strong> {{ $course->name }}</p>
+        <p><strong>Description:</strong> {{ $course->description ?? 'No description provided.' }}</p>
+        <p><strong>Duration:</strong> {{ $course->duration }} weeks</p>
+        <p><strong>Fee:</strong> {{ number_format($course->fee, 2) }}</p>
+        <p><strong>Difficulty:</strong> {{ $course->difficulty }}</p>
+        <p><strong>Active:</strong> {{ $course->is_active ? 'Yes' : 'No' }}</p>
+    </div>
+
+    <div class="form-actions">
+        <a href="{{ route('courses.edit', $course) }}" class="btn">Edit Course</a>
+        <a href="{{ route('courses.index') }}" class="link-button">Back to Courses</a>
+    </div>
+</x-layouts.app>
