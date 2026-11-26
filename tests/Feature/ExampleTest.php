@@ -16,6 +16,12 @@ class ExampleTest extends TestCase
             ->assertRedirect(route('students.index'));
     }
 
+    public function test_the_welcome_url_redirects_to_the_student_index(): void
+    {
+        $this->get('/welcome')
+            ->assertRedirect(route('students.index'));
+    }
+
     public function test_student_index_and_create_pages_render_their_headings(): void
     {
         $this->get(route('students.index'))
@@ -25,7 +31,8 @@ class ExampleTest extends TestCase
 
         $this->get(route('students.create'))
             ->assertOk()
-            ->assertSee('<h1>Create Student</h1>', false);
+            ->assertSee('<h1>Create Student</h1>', false)
+            ->assertSee('name="date_of_birth" value="" required', false);
     }
 
     public function test_student_show_and_edit_pages_render_their_headings(): void

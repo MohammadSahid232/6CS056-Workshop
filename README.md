@@ -53,9 +53,8 @@ The seeder adds sample students and courses only when their respective tables ar
 | Create student | `/students/create` |
 | Course list | `/courses` |
 | Create course | `/courses/create` |
-| Welcome dashboard | `/welcome` |
 
-The root URL `/` redirects to the student list to preserve the existing application behavior. The shared navbar links to both resource lists. Back uses browser history; Home opens the welcome dashboard.
+The root URL `/` and the legacy `/welcome` URL redirect to the student list. The shared navbar links to both resource lists. Back uses browser history; Home opens the student list.
 
 Resource routes are registered in `routes/web.php`:
 

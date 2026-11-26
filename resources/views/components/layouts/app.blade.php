@@ -15,7 +15,6 @@
             <button type="button" class="btn btn-secondary back-button" onclick="window.history.back(); return false;">
                 Back
             </button>
-            <a href="{{ route('home') }}" class="btn btn-secondary home-button">Home</a>
         </div>
         <x-alert />
         {{ $slot }}

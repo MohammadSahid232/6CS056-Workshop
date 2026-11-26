@@ -8,9 +8,7 @@ Route::get('/', function () {
     return redirect()->route('students.index');
 });
 
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('home');
+Route::redirect('/welcome', '/students');
 
 Route::resource('students', StudentController::class);
 Route::resource('courses', CourseController::class);
