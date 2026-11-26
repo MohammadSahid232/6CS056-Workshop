@@ -4,6 +4,7 @@
     <div class="detail-card">
         <p><strong>ID:</strong> {{ $course->id }}</p>
         <p><strong>Name:</strong> {{ $course->name }}</p>
+        <p><strong>Owner:</strong> {{ $course->user?->name ?? 'Unknown' }} (ID: {{ $course->user_id }})</p>
         <p><strong>Description:</strong> {{ $course->description ?? 'No description provided.' }}</p>
         <p><strong>Duration:</strong> {{ $course->duration }} weeks</p>
         <p><strong>Fee:</strong> {{ number_format($course->fee, 2) }}</p>

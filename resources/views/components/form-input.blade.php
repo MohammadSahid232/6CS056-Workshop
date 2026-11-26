@@ -1,9 +1,10 @@
 @props(['name', 'label', 'type' => 'text', 'value' => ''])
 
-<div class="form-group">
-    <label for="{{ $name }}">{{ $label }}</label>
+<div>
+    <label for="{{ $name }}">{{ $label }}</label><br>
     <input type="{{ $type }}" id="{{ $name }}" name="{{ $name }}" value="{{ old($name, $value) }}" {{ $attributes }}>
     @error($name)
-        <p class="error">{{ $message }}</p>
+        <p>{{ $message }}</p>
     @enderror
 </div>
+<br>

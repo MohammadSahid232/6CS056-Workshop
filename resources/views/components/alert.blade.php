@@ -1,7 +1,7 @@
 @props(['type' => 'success'])
 
 @if (session($type))
-    <div class="alert alert-{{ $type }}" role="alert">
-        {{ session($type) }}
+    <div role="alert">
+        <strong>{{ session($type) }}</strong>
     </div>
 @endif

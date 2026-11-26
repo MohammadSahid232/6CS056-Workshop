@@ -6,16 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }} | Training Institute</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
     <x-navbar />
-    <main class="container">
-        <div class="page-tools">
-            <button type="button" class="btn btn-secondary back-button" onclick="window.history.back(); return false;">
+    <main>
+        <div>
+            <button type="button" onclick="window.history.back(); return false;">
                 Back
             </button>
-            <a href="{{ route('home') }}" class="btn btn-secondary home-button">Home</a>
+            <a href="{{ route('home') }}">Home</a>
         </div>
         <x-alert />
         {{ $slot }}

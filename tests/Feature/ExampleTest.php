@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,26 +11,34 @@ class ExampleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_the_home_page_redirects_to_the_student_index(): void
+    public function test_the_home_page_is_publicly_accessible(): void
     {
         $this->get('/')
-            ->assertRedirect(route('students.index'));
+            ->assertOk()
+            ->assertSee('Training Institute Management System')
+            ->assertSee('Login')
+            ->assertSee('Register');
     }
 
     public function test_student_index_and_create_pages_render_their_headings(): void
     {
-        $this->get(route('students.index'))
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('students.index'))
             ->assertOk()
             ->assertSee('<h1>Student List</h1>', false)
             ->assertSee('No students found.');
 
-        $this->get(route('students.create'))
+        $this->actingAs($user)
+            ->get(route('students.create'))
             ->assertOk()
             ->assertSee('<h1>Create Student</h1>', false);
     }
 
     public function test_student_show_and_edit_pages_render_their_headings(): void
     {
+        $user = User::factory()->create();
         $student = Student::query()->create([
             'name' => 'Alex Student',
             'email' => 'alex@example.com',
@@ -38,13 +47,15 @@ class ExampleTest extends TestCase
             'date_of_birth' => '2005-04-15',
         ]);
 
-        $this->get(route('students.show', $student))
+        $this->actingAs($user)
+            ->get(route('students.show', $student))
             ->assertOk()
             ->assertSee('<h1>Student Details</h1>', false)
             ->assertSee('Alex Student')
             ->assertSee('alex@example.com');
 
-        $this->get(route('students.edit', $student))
+        $this->actingAs($user)
+            ->get(route('students.edit', $student))
             ->assertOk()
             ->assertSee('<h1>Edit Student</h1>', false)
             ->assertSee('value="Alex Student"', false);
@@ -52,6 +63,7 @@ class ExampleTest extends TestCase
 
     public function test_student_can_be_created(): void
     {
+        $user = User::factory()->create();
         $studentData = [
             'name' => 'Jordan Lee',
             'email' => 'jordan@example.com',
@@ -60,7 +72,8 @@ class ExampleTest extends TestCase
             'date_of_birth' => '2004-03-12',
         ];
 
-        $this->post(route('students.store'), $studentData)
+        $this->actingAs($user)
+            ->post(route('students.store'), $studentData)
             ->assertRedirect();
 
         $this->assertDatabaseHas('students', [
@@ -71,7 +84,10 @@ class ExampleTest extends TestCase
 
     public function test_student_creation_requires_valid_student_details(): void
     {
-        $this->from(route('students.create'))
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->from(route('students.create'))
             ->post(route('students.store'), [
                 'name' => '',
                 'email' => 'not-an-email',
@@ -93,6 +109,7 @@ class ExampleTest extends TestCase
 
     public function test_student_can_be_updated(): void
     {
+        $user = User::factory()->create();
         $student = Student::query()->create([
             'name' => 'Jordan Lee',
             'email' => 'jordan@example.com',
@@ -108,7 +125,8 @@ class ExampleTest extends TestCase
             'date_of_birth' => '2004-04-20',
         ];
 
-        $this->put(route('students.update', $student), $updatedData)
+        $this->actingAs($user)
+            ->put(route('students.update', $student), $updatedData)
             ->assertRedirect(route('students.show', $student));
 
         $this->assertDatabaseHas('students', [
@@ -120,6 +138,7 @@ class ExampleTest extends TestCase
 
     public function test_student_can_be_deleted(): void
     {
+        $user = User::factory()->create();
         $student = Student::query()->create([
             'name' => 'Jordan Lee',
             'email' => 'jordan@example.com',
@@ -128,7 +147,8 @@ class ExampleTest extends TestCase
             'date_of_birth' => '2004-03-12',
         ]);
 
-        $this->delete(route('students.destroy', $student))
+        $this->actingAs($user)
+            ->delete(route('students.destroy', $student))
             ->assertRedirect(route('students.index'));
 
         $this->assertDatabaseMissing('students', ['id' => $student->id]);
